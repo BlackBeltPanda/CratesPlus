@@ -40,7 +40,7 @@ public class PlayerInteract implements Listener {
                 return;
             Chest chest = (Chest) event.getClickedBlock().getState();
             String title = chest.getCustomName();
-            if (title != null && title.contains(" Crate!"))
+            if (title == null || !title.contains(" Crate!"))
                 return;
             crateType = ChatColor.stripColor(title.replaceAll(" Crate!", ""));
         } else {
@@ -68,7 +68,7 @@ public class PlayerInteract implements Listener {
             if (event.getPlayer().isSneaking())
                 return;
             /** Do preview */
-            CratePreviewEvent cratePreviewEvent = new CratePreviewEvent(player, crateType, cratesPlus);
+            CratePreviewEvent cratePreviewEvent = new CratePreviewEvent(player, crateType, cratesPlus, 1);
             if (!cratePreviewEvent.isCanceled())
                 cratePreviewEvent.doEvent();
         } else {
