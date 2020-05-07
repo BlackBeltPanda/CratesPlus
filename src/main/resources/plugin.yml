@@ -4,7 +4,7 @@ main: plus.crates.CratesPlus
 api-version: 1.13
 version: ${project.version}
 author: Connor Linfoot
-softdepend: [HolographicDisplays,IndividualHolograms]
+softdepend: [HolographicDisplays,IndividualHolograms,CMI]
 commands:
   crate:
     description: Main CratesPlus command

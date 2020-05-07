@@ -14,9 +14,11 @@ import plus.crates.CratesPlus;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 public class Version_Util {
     private HashMap<String, com.gmail.filoghost.holographicdisplays.api.Hologram> holograms = new HashMap<>();
+    private HashMap<String, com.Zrips.CMI.Modules.Holograms.CMIHologram> cmiHolograms = new HashMap<>();
     protected CratesPlus cratesPlus;
     private boolean shown_hologram_deprecated_warning = false;
 
@@ -45,6 +47,12 @@ public class Version_Util {
                 hologram.appendTextLine(line);
             }
             holograms.put("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ(), hologram);
+        } else if (cratesPlus.useCMIHolograms()) {
+        	com.Zrips.CMI.Modules.Holograms.CMIHologram hologram = new com.Zrips.CMI.Modules.Holograms.CMIHologram(UUID.randomUUID().toString(), location.clone().add(0, 1.25, 0));
+        	hologram.setLines(lines);
+        	com.Zrips.CMI.CMI.getInstance().getHologramManager().addHologram(hologram);
+        	hologram.update();
+            cmiHolograms.put("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ(), hologram);
         } else {
             if (cratesPlus.getBukkitVersion().equals("1.8") || cratesPlus.getBukkitVersion().startsWith("1.8.") || cratesPlus.getBukkitVersion().equals("1.9") || cratesPlus.getBukkitVersion().startsWith("1.9.")) {
                 Hologram hologram = new Hologram(location, lines);
@@ -65,6 +73,13 @@ public class Version_Util {
                 holograms.get("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ()).delete();
                 holograms.remove("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ());
             }
+        } else if (cratesPlus.useCMIHolograms()) {
+        	if (cmiHolograms.containsKey("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ())) {
+        		com.Zrips.CMI.Modules.Holograms.CMIHologram hologram = cmiHolograms.get("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ());
+        		com.Zrips.CMI.CMI.getInstance().getHologramManager().hideHoloForAllPlayers(hologram);
+        		com.Zrips.CMI.CMI.getInstance().getHologramManager().removeHolo(hologram);
+        		cmiHolograms.remove("" + location.getWorld().getName() + "|" + location.getBlockX() + "|" + location.getBlockY() + "|" + location.getBlockZ());
+        	}
         }
     }
 

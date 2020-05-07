@@ -31,6 +31,7 @@ public class CratesPlus extends JavaPlugin implements Listener {
     private boolean updateAvailable = false;
     private boolean useIndividualHolograms = false;
     private boolean useHolographicDisplays = false;
+    private boolean useCMIHolograms = false;
     private File dataFile;
     private File messagesFile;
     private YamlConfiguration dataConfig;
@@ -106,6 +107,7 @@ public class CratesPlus extends JavaPlugin implements Listener {
 
         useIndividualHolograms = Bukkit.getPluginManager().isPluginEnabled("IndividualHolograms");
         useHolographicDisplays = Bukkit.getPluginManager().isPluginEnabled("HolographicDisplays");
+        useCMIHolograms = Bukkit.getPluginManager().isPluginEnabled("CMI");
 
         // Check data.yml exists, if not create it!
         dataFile = new File(getDataFolder(), "data.yml");
@@ -221,8 +223,10 @@ public class CratesPlus extends JavaPlugin implements Listener {
             console.sendMessage(ChatColor.GREEN + "Individual Holograms was found, hooking in!");
         } else if (useHolographicDisplays) {
             console.sendMessage(ChatColor.GREEN + "HolographicDisplays was found, hooking in!");
+        } else if (useCMIHolograms) {
+            console.sendMessage(ChatColor.GREEN + "CMI was found, hooking in!");
         } else {
-            console.sendMessage(ChatColor.RED + "You are using the built in handler for holograms. This will be removed in a future update! It is recommended to install Individual Holograms or HolographicDisplays which CratesPlus will then use to handle holograms.");
+            console.sendMessage(ChatColor.RED + "You are using the built in handler for holograms. This will be removed in a future update! It is recommended to install Individual Holograms, HolographicDisplays, or CMI which CratesPlus will then use to handle holograms.");
         }
 
         if (configBackup != null && Bukkit.getOnlinePlayers().size() > 0) {
@@ -545,6 +549,10 @@ public class CratesPlus extends JavaPlugin implements Listener {
 
     public boolean useHolographicDisplays() {
         return useHolographicDisplays;
+    }
+
+    public boolean useCMIHolograms() {
+        return useCMIHolograms;
     }
 
     public YamlConfiguration getDataConfig() {
