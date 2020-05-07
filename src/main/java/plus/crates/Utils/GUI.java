@@ -7,6 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import plus.crates.CratesPlus;
 
 import java.util.*;
 
@@ -200,7 +203,12 @@ public class GUI {
     public void open(Player player, Integer page) {
         guis.put(player.getUniqueId(), this);
         pageTracker.put(player.getUniqueId(), page);
-        player.openInventory(create(page));
+        new BukkitRunnable() {
+			@Override
+			public void run() {
+		        player.openInventory(create(page));
+			}
+		}.runTaskLater(CratesPlus.getInstance(), 1L);
     }
 
     public abstract static class ClickHandler {
